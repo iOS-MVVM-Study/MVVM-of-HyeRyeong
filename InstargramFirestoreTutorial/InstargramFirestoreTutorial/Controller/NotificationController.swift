@@ -8,8 +8,14 @@
 import UIKit
 
 class NotificationController: UIViewController{
+    //MARK: LifeCycle
     override func viewDidLoad() {
-        
+        configureUI()
+    }
+    
+    //MARK: Helper
+    
+    func configureUI(){
         view.backgroundColor = .green
     }
 }
