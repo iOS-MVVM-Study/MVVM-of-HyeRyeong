@@ -19,9 +19,11 @@ class MainTabController: UITabBarController{
     
     func configureViewControllers(){
         tabBar.backgroundColor = .gray
+        
+        let layout = UICollectionViewLayout()
         let feed = templateNavigationController(unselectedImage: UIImage(named: "home_unselected"),
                                                   selectedImage: UIImage(named: "home_selected"),
-                                                  rootViewController: FeedController())
+                                                  rootViewController: FeedController(collectionViewLayout: layout))
         
         let search = templateNavigationController(unselectedImage: UIImage(named: "search_unselected"),
                                                   selectedImage: UIImage(named: "search_selected"),
