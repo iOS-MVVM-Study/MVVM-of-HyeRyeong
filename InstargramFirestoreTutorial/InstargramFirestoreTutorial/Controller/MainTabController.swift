@@ -20,7 +20,7 @@ class MainTabController: UITabBarController{
     func configureViewControllers(){
         tabBar.backgroundColor = .gray
         
-        let layout = UICollectionViewLayout()
+        let layout = UICollectionViewFlowLayout()
         let feed = templateNavigationController(unselectedImage: UIImage(named: "home_unselected"),
                                                   selectedImage: UIImage(named: "home_selected"),
                                                   rootViewController: FeedController(collectionViewLayout: layout))
