@@ -21,31 +21,31 @@ class MainTabController: UITabBarController{
         tabBar.backgroundColor = .gray
         
         let layout = UICollectionViewFlowLayout()
-        let feed = templateNavigationController(unselectedImage: UIImage(named: "home_unselected"),
-                                                  selectedImage: UIImage(named: "home_selected"),
+        let feed = templateNavigationController(unselectedImage: ImageLiterals.icHomeUnselected,
+                                                  selectedImage: ImageLiterals.icHomeSelected,
                                                   rootViewController: FeedController(collectionViewLayout: layout))
         
-        let search = templateNavigationController(unselectedImage: UIImage(named: "search_unselected"),
-                                                  selectedImage: UIImage(named: "search_selected"),
+        let search = templateNavigationController(unselectedImage: ImageLiterals.icSearchSelected,
+                                                  selectedImage: ImageLiterals.icSearchSelected,
                                                   rootViewController: SearchController())
         
-        let imageSelector = templateNavigationController(unselectedImage: UIImage(named: "plus_unselected"),
-                                                         selectedImage: UIImage(named: "plus_unselected"),
+        let imageSelector = templateNavigationController(unselectedImage: ImageLiterals.icPlusUnselected,
+                                                         selectedImage: ImageLiterals.icPlusUnselected,
                                                          rootViewController: ImageSelectorController())
                
-        let notification = templateNavigationController(unselectedImage: UIImage(named: "like_unselected"),
-                                                        selectedImage: UIImage(named: "like_selected"),
+        let notification = templateNavigationController(unselectedImage: ImageLiterals.icLikeUnselected,
+                                                        selectedImage: ImageLiterals.icLikeSelected,
                                                         rootViewController: NotificationController())
                            
-        let profile = templateNavigationController(unselectedImage: UIImage(named: "profile_unselected"),
-                                                        selectedImage: UIImage(named: "profile_selected"),
+        let profile = templateNavigationController(unselectedImage: ImageLiterals.icProfileUnselected,
+                                                        selectedImage: ImageLiterals.icProfileSelected,
                                                         rootViewController: ProfileController())
                            
         viewControllers = [feed, search, imageSelector, notification, profile]
         tabBar.tintColor = .black
     }
     
-    func templateNavigationController(unselectedImage: UIImage?, selectedImage: UIImage?, rootViewController: UIViewController) -> UINavigationController {
+    func templateNavigationController(unselectedImage: UIImage, selectedImage: UIImage, rootViewController: UIViewController) -> UINavigationController {
         let nav = UINavigationController(rootViewController: rootViewController)
         nav.tabBarItem.image = unselectedImage
         nav.tabBarItem.selectedImage = selectedImage
