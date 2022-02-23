@@ -40,9 +40,17 @@ class LoginController: UIViewController{
         return button
     }()
     
-    private let dontHaveAccountButton = UIButton(type: .system)
-    private let forgotPasswordButton = UIButton(type: .system)
+    private let dontHaveAccountButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.attributedTitle(firstPart: "Don't have an account?  ", secondPart: "Sign Up")
+        return button
+    }()
     
+    private let forgotPasswordButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.attributedTitle(firstPart: "Forgot you password? ", secondPart: "Get help signing in.")
+        return button
+    }()
     
     //MARK: - LifeCycle
     
@@ -87,28 +95,8 @@ class LoginController: UIViewController{
     }
     
     private func configureButtons(){
-        setupArrtibute(in: dontHaveAccountButton,
-                       normal: "Don't have an account?   ",
-                       bold: "Sign Up")
-        
-        setupArrtibute(in: forgotPasswordButton,
-                       normal: "Forgot you password? ",
-                       bold: "Get help signing in.")
-        
         view.addSubview(dontHaveAccountButton)
         dontHaveAccountButton.centerX(inView: view)
         dontHaveAccountButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor)
     }
-    
-    private func setupArrtibute(in button: UIButton, normal: String, bold: String){
-        let attributes: [NSAttributedString.Key : Any] = [.foregroundColor: UIColor(white: 1, alpha: 0.7),
-                                                          .font : UIFont.systemFont(ofSize: 16)]
-        let attributedTitle = NSMutableAttributedString(string: normal, attributes: attributes)
-        let boldAttributes: [NSAttributedString.Key : Any] = [.foregroundColor: UIColor(white: 1, alpha: 0.7),
-                                                              .font : UIFont.systemFont(ofSize: 16, weight: .bold)]
-       
-        attributedTitle.append(NSAttributedString(string: bold, attributes: boldAttributes))
-        button.setAttributedTitle(attributedTitle, for: .normal)
-    }
-                                                                    
 }
