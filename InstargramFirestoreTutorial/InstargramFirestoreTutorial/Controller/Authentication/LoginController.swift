@@ -17,8 +17,18 @@ class LoginController: UIViewController{
         return imageView
     }()
     
-    private let emailTextField = UITextField()
-    private let passwordTextField = UITextField()
+    private let emailTextField: UITextField = {
+        let textField = CustomTextField(placeholder: "Email")
+        textField.keyboardType = .emailAddress
+        return textField
+    }()
+    
+    private let passwordTextField: UITextField = {
+        let textField = CustomTextField(placeholder: "Password")
+        textField.isSecureTextEntry = true
+        return textField
+    }()
+    
     private let loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Log In", for: .normal)
@@ -58,10 +68,6 @@ class LoginController: UIViewController{
     }
      
     private func configureTextField(){
-        setupAttribute(in: emailTextField, attributedString: "Email")
-        setupAttribute(in: passwordTextField, attributedString: "Password")
-        passwordTextField.isSecureTextEntry = true
-        
         let stackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField,
                                                        loginButton, forgotPasswordButton])
         stackView.axis = .vertical
@@ -92,17 +98,6 @@ class LoginController: UIViewController{
         view.addSubview(dontHaveAccountButton)
         dontHaveAccountButton.centerX(inView: view)
         dontHaveAccountButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor)
-    }
-    
-    private func setupAttribute(in textField: UITextField, attributedString: String){
-        textField.borderStyle = .none
-        textField.textColor = .white
-        textField.keyboardAppearance = .dark
-        textField.keyboardType = .emailAddress
-        textField.backgroundColor = UIColor(white: 1, alpha: 0.1)
-        textField.attributedPlaceholder = NSAttributedString(string: attributedString,
-                                                             attributes: [.foregroundColor : UIColor(white: 1, alpha: 0.7)])
-        textField.setHeight(50)
     }
     
     private func setupArrtibute(in button: UIButton, normal: String, bold: String){
