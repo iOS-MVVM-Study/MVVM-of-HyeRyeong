@@ -10,10 +10,15 @@ import UIKit
 class RegistrationController: UIViewController{
     
     //MARK: - Properties
+    
+    private var viewModel = RegistrationViewModel()
+    
     private let plusPhotoButton: UIButton = {
         let buttton = UIButton(type: .system)
         buttton.setImage(ImageLiterals.icPlusPhoto, for: .normal)
         buttton.tintColor = .white
+        buttton.addTarget(self, action: #selector(handleProfilePhotoSelect),
+                          for: .touchUpInside)
         return buttton
     }()
     
@@ -55,6 +60,7 @@ class RegistrationController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        configureNotificationObservers()
     }
     
     //MARK: Actions
@@ -62,6 +68,30 @@ class RegistrationController: UIViewController{
     @objc
     private func handleShowSignUp(){
         navigationController?.popViewController(animated: true)
+   
+    }
+    
+    @objc
+    private func textDidChange(sender: UITextField){
+        if sender == emailTextField{
+            viewModel.email = sender.text
+        }else if sender == passwordTextField{
+            viewModel.password = sender.text
+        }else if sender == fullNameTextField{
+            viewModel.fullName = sender.text
+        }else{
+            viewModel.userName = sender.text
+        }
+        updateForm()
+    }
+    
+    @objc
+    private func handleProfilePhotoSelect(){
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.allowsEditing = true
+        
+        present(picker, animated: true, completion: nil)
     }
     
     //MARK: - Helper
