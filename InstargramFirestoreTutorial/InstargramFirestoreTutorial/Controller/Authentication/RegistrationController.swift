@@ -9,9 +9,11 @@ import UIKit
 
 class RegistrationController: UIViewController{
     
-    //MARK: - Properties
+    // MARK: - Properties
     
     private var viewModel = RegistrationViewModel()
+    private var profileImage: UIImage?
+    
     
     private let plusPhotoButton: UIButton = {
         let buttton = UIButton(type: .system)
@@ -31,27 +33,30 @@ class RegistrationController: UIViewController{
     private let passwordTextField: UITextField = {
         let textField = CustomTextField(placeholder: "Password")
         textField.isSecureTextEntry = true
+        //textField.textContentType = .oneTimeCode
         return textField
     }()
     
     private let fullNameTextField = CustomTextField(placeholder: "Full name")
     private let userNameTextField = CustomTextField(placeholder: "User name")
     
-    private let signUpButton: UIButton = {
+    private lazy var signUpButton: UIButton = {
         let button = UIButton(type: .system)
+        button.isEnabled = false
         button.setTitle("Sign Up", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .systemIndigo
         button.layer.cornerRadius = 5
         button.setHeight(50) // stack view에 넣을 때 크기
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+        button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
         return button
     }()
     
     private lazy var alreadyHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
         button.attributedTitle(firstPart: "Already have an account?", secondPart: "Log In")
-        button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleShowLogin), for: .touchUpInside)
         return button
     }()
     
@@ -66,7 +71,29 @@ class RegistrationController: UIViewController{
     //MARK: Actions
     
     @objc
-    private func handleShowSignUp(){
+    private func handleSignUp(){
+        guard let email = emailTextField.text else { return }
+        guard let password = passwordTextField.text else { return }
+        guard let fullName = fullNameTextField.text else { return }
+        guard let userName = userNameTextField.text else { return }
+        guard let profileImage = self.profileImage else { return }
+        let credentials = AuthCredentials(email: email,
+                                          password: password,
+                                          fullName: fullName,
+                                          userName: userName,
+                                          profileImage: profileImage) 
+        AuthService.registerUser(withCredential: credentials){ error in
+            if let error = error{
+                print("DEBUG : Falied to registerUser \(error.localizedDescription)")
+                return
+            }
+            
+            print("DEBUG: Successfully registered user with firestore..")
+        }
+    }
+    
+    @objc
+    private func handleShowLogin(){
         navigationController?.popViewController(animated: true)
    
     }
@@ -142,6 +169,7 @@ extension RegistrationController: FormViewModel{
 extension RegistrationController: UIImagePickerControllerDelegate{
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let selectedImage = info[.editedImage] as? UIImage else {return}
+        profileImage = selectedImage
         plusPhotoButton.layer.cornerRadius = plusPhotoButton.frame.width / 2
         plusPhotoButton.layer.masksToBounds = true
         plusPhotoButton.layer.borderColor = UIColor.white.cgColor
