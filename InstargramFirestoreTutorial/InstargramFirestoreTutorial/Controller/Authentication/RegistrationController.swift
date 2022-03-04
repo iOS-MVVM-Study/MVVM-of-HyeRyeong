@@ -14,7 +14,6 @@ class RegistrationController: UIViewController{
     private var viewModel = RegistrationViewModel()
     private var profileImage: UIImage?
     
-    
     private let plusPhotoButton: UIButton = {
         let buttton = UIButton(type: .system)
         buttton.setImage(ImageLiterals.icPlusPhoto, for: .normal)
@@ -87,7 +86,7 @@ class RegistrationController: UIViewController{
                 print("DEBUG : Falied to registerUser \(error.localizedDescription)")
                 return
             }
-            
+            self.dismiss(animated: true, completion: nil)
             print("DEBUG: Successfully registered user with firestore..")
         }
     }
