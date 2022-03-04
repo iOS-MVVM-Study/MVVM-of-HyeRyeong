@@ -40,6 +40,7 @@ class LoginController: UIViewController{
         button.setHeight(50) // stack view에 넣을 때 크기
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
         button.isEnabled = false
+        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return button
     }()
     
@@ -65,6 +66,18 @@ class LoginController: UIViewController{
     }
     
     //MARK: Actions
+    
+    @objc func handleLogin(){
+        guard let email = emailTextField.text else { return }
+        guard let password = passwordTextField.text else { return }
+        AuthService.logUserIn(email: email, password: password){result, error in
+            if let error = error{
+                print("DEBUG : Falied to logUserIn \(error.localizedDescription)")
+                return
+            }
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
     
     @objc
     private func handleShowSignUp(){
