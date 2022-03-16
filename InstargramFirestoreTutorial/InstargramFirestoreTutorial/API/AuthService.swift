@@ -37,7 +37,7 @@ struct AuthService {
                                            "profileImageUrl" : imageUrl,
                                            "uid" : uid,
                                            "userName" : credentials.userName]
-                Firestore.firestore().collection("users").document(uid).setData(data, completion: completion)
+                COLLECTION_USERS.document(uid).setData(data, completion: completion)
             }
         }
     }
