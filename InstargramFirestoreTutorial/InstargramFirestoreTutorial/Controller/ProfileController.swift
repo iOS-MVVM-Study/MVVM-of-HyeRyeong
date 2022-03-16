@@ -9,9 +9,26 @@ import UIKit
 
 class ProfileController: UICollectionViewController{
     
+    // MARK: - Properties
+    var user: User? {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    
     // MARK: - LifeCycle
     override func viewDidLoad() {
         configureCollectionView()
+        fetchUser()
+    }
+    
+    // MARK: - API
+    
+    func fetchUser() {
+        UserService.fetchUser { user in
+            self.user = user
+            self.navigationItem.title = user.userName
+        }
     }
     
     // MARK: - Helper
@@ -23,6 +40,7 @@ class ProfileController: UICollectionViewController{
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: ProfileHeader.className)
     }
+    
 }
 
 // MARK: - UICollectionViewDataSource
@@ -37,7 +55,16 @@ extension ProfileController{
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        print("DEBUG: Did call header function")
+        
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileHeader.className, for: indexPath) as? ProfileHeader else { return UICollectionReusableView()}
+        
+        if let user = user {
+            header.viewModel = ProfileHeaderViewModel(user: user)
+        } else {
+            print("DEBUG: User not yet set ...")
+        }
         return header
     }
 }
@@ -61,7 +88,6 @@ extension ProfileController: UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (view.frame.width - 2) / 3
-        print("width = \(width)")
         return CGSize(width: width, height: width)
     }
     
